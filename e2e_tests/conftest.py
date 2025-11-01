@@ -5,6 +5,7 @@ from e2e_tests.config import USERNAME, PASSWORD, BASE_URL
 from e2e_tests.pages.inventory_page import InventoryPage
 from e2e_tests.pages.login_page import LoginPage
 
+import pytest
 
 @pytest.fixture(scope="session")
 def driver():

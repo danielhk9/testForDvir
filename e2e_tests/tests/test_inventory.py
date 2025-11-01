@@ -3,7 +3,6 @@ import pytest
 from e2e_tests.e2e_test_data import EXPECTED_NUMBER_OF_INVENTORY_ITEMS, EXPECTED_CART_COUNT_AFTER_ADDING_ONE_ITEM
 
 
-
 def test_get_inventory_number_of_items(driver, login, inventory_setup):
     items = inventory_setup.get_inventory_items()
     assert len(items) == EXPECTED_NUMBER_OF_INVENTORY_ITEMS, f"Expected {EXPECTED_NUMBER_OF_INVENTORY_ITEMS} inventory items, but got different number {len(items)}."

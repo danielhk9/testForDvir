@@ -1,9 +1,14 @@
 import logging
+
+import allure
+
 from api_tests.api_test_data import expected_airports, airports_distance, EXPECTED_DISTANCE, EXPECTED_NUMBER_OF_AIRPORTS
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+@allure.feature("Login")
+@allure.story("Valid credentials")
 def test_verify_airport_count(get_airports_data):
     logger.info("Starting validate airport count")
     assert len(get_airports_data) == EXPECTED_NUMBER_OF_AIRPORTS, f"Expected {EXPECTED_NUMBER_OF_AIRPORTS} airports but got {len(get_airports_data)}"
