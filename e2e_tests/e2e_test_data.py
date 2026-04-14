@@ -6,4 +6,4 @@ APPLE = 'apple'
 
 # prices_range
 max_price = '100'
-min_price = '50'
+min_price = '80'

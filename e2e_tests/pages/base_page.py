@@ -1,4 +1,5 @@
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -25,9 +26,8 @@ class BasePage:
     def get_element_inside_locator(self, main_locator, locator):
         return self.driver.find_element(main_locator, locator)
 
-    def submit(self, locator):
-        element = self.get_element(locator)
-        element.send_keys(Keys.ENTER)
+    def submit(self):
+        ActionChains(self.driver).send_keys(Keys.ENTER).perform()
 
     def get_elements(self, locator):
         return self.wait_for_elements(locator)
@@ -43,18 +43,10 @@ class BasePage:
         element.clear()
         element.send_keys(text)
 
-    def is_displayed(self, locator):
-        try:
-            return self.get_element(locator).is_displayed()
-        except TimeoutException:
-            return False
+    def change_tab(self):
+        self.driver.switch_to.window(self.driver.window_handles[-1])
 
-    @staticmethod
-    def change_tab():
-        driver.switch_to.window(driver.window_handles[-1])
-
-    @staticmethod
-    def close_current_tab():
-        driver.close()
+    def close_current_tab(self):
+        self.driver.close()
 
 

@@ -1,9 +1,9 @@
 import pytest
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
-from e2e_tests.config import USERNAME, PASSWORD, BASE_URL
-from e2e_tests.pages.filter_panel import InventoryPage
-from e2e_tests.pages.landing_page import LandingPage
+from e2e_tests.config import BASE_URL
+from e2e_tests.pages.home_page import HomePage
 from e2e_tests.pages.item_page import ItemPage
 from e2e_tests.pages.cart_page import CartPage
 from e2e_tests.pages.filter_panel import FilterPanel
@@ -25,7 +25,7 @@ def driver():
 
 @pytest.fixture(scope="session")
 def open_ebay_page(driver):
-    landing_page = LandingPage(driver)
+    landing_page = HomePage(driver)
     search_bar = landing_page.verify_ebay_page_ready()
     assert search_bar, f"page failed to load! search bar was not found. Received: {search_bar}"
 
@@ -33,13 +33,14 @@ def open_ebay_page(driver):
 
 @pytest.fixture
 def landing_page(driver):
-    landing_page = LandingPage(driver)
+    landing_page = HomePage(driver)
     return landing_page
 
 @pytest.fixture
 def item_page(driver):
     item_page = ItemPage(driver)
-    return item_page
+    yield item_page
+    item_page.remove_item()
 
 @pytest.fixture
 def filter_panel(driver):
@@ -49,11 +50,13 @@ def filter_panel(driver):
 @pytest.fixture
 def cart_page(driver):
     cart_page = CartPage(driver)
-    yield cart_page
-    cart_page.remove_item()
+    return cart_page
 
-def search_results(landing_page, search_term):
-    landing_page.search_for_item(search_term)
+@pytest.fixture()
+def perform_search(item, landing_page):
+    landing_page.search_for_item(item)
+
+def search_results(landing_page):
     items = landing_page.get_items()
-    assert items, f"No items were found for search term: {search_term}"
-    return items
+    assert items, f"No items were found for search term: {items}"
+    return items.find_elements(By.TAG_NAME, "li")

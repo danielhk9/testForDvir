@@ -3,17 +3,17 @@ from allure_commons.types import AttachmentType
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_sessionstart(session):
-    alluredir = session.config.getoption("--alluredir")
+    alluredir = getattr(session.config.option, "alluredir", None)
     if alluredir:
         p = pathlib.Path(alluredir)
         p.mkdir(parents=True, exist_ok=True)
-        (p/"environment.properties").write_text(
+        (p / "environment.properties").write_text(
             "BASE_URL={}\nBROWSER={}\nHEADLESS={}\n".format(
-                session.config.getoption("--base-url", default=""),
-                session.config.getoption("--browser", default="chrome"),
-                session.config.getoption("--headless", default=True),
+                getattr(session.config.option, "base_url", ""),
+                getattr(session.config.option, "browser", "chrome"),
+                getattr(session.config.option, "headless", True),
             ),
-            encoding="utf-8"
+            encoding="utf-8",
         )
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
