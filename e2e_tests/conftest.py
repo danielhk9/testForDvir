@@ -1,4 +1,3 @@
-import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -6,7 +5,7 @@ from e2e_tests.config import BASE_URL
 from e2e_tests.pages.home_page import HomePage
 from e2e_tests.pages.item_page import ItemPage
 from e2e_tests.pages.cart_page import CartPage
-from e2e_tests.pages.filter_panel import FilterPanel
+from e2e_tests.components.filter_panel import FilterPanel
 
 import pytest
 
