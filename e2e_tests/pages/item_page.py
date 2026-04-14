@@ -24,8 +24,8 @@ class ItemPage(BasePage):
     def remove_item(self):
         elements = self.get_elements(self.REMOVE_BTN)
         for i, el in enumerate(elements):
+            sleep(2)  # Temporary wait to handle CAPTCHA triggered by rapid actions
             if i == len(elements)-1:
-                sleep(2) # Temporary wait to handle CAPTCHA triggered by rapid actions
                 self.get_element(self.REMOVE_BTN).click()
                 break
             self.click(element=el)
