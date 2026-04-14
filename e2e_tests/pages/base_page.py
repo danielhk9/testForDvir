@@ -12,13 +12,13 @@ class BasePage:
         try:
             return self.wait.until(EC.visibility_of_element_located(locator))
         except TimeoutException:
-            return False
+            assert False, f"Element not visible after timeout: {locator}"
 
     def wait_for_elements(self, locator):
         try:
             return self.wait.until(EC.visibility_of_all_elements_located(locator))
         except TimeoutException:
-            assert False
+            assert False, f"Elements not visible after timeout: {locator}"
 
     def get_element(self, locator):
         return self.wait_for_element(locator)

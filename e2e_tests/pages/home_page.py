@@ -1,10 +1,17 @@
 import re
-from time import sleep
-
+import logging
 from e2e_tests.pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 
 
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s"
+)
+
+
+logger = logging.getLogger(__name__)
 
 class HomePage(BasePage):
     search_bar  = (By.CSS_SELECTOR, '.ui-autocomplete-input')
@@ -21,14 +28,27 @@ class HomePage(BasePage):
         self.type_text(self.search_bar, item)
         self.click(self.search_button)
 
-    def select_item_by_index(self,min_price, max_price, item):
-        price_el = item.find_element(By.CSS_SELECTOR, ".s-card__price")
-        actual_price = price_el.get_attribute("innerText").strip()
-        actual_price =  float(re.sub(r"[^\d.]", "", actual_price))
-        if int(min_price) <= int(actual_price) <= int(max_price):
-            self.click(element=item)
-            self.all_prices.append(actual_price)
-            return self.all_prices
+    def select_item_by_index(self, min_price, max_price, item):
+        try:
+            price_el = item.find_element(By.CSS_SELECTOR, ".s-card__price")
+            actual_price = price_el.get_attribute("innerText").strip()
+            logger.info(f"Raw price text: '{actual_price}'")
+            actual_price = float(re.sub(r"[^\d.]", "", actual_price))
+
+            logger.info(f"Parsed price: {actual_price} | Range: {min_price}-{max_price}")
+
+            if int(min_price) <= int(actual_price) <= int(max_price):
+                logger.info("✅ Item in range → clicking item")
+                self.click(element=item)
+                self.all_prices.append(actual_price)
+                logger.info(f"Added price: {actual_price}")
+                return self.all_prices
+            else:
+                logger.info("❌ Item NOT in range")
+
+        except Exception as e:
+            logger.error(f"Error processing item: {e}")
+
         return None
 
     def get_items(self):

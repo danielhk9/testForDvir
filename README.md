@@ -1,39 +1,124 @@
-# Airport API and Inventory UI Automation Tests
+# Ebay Prices UI Automation Tests
 
-This project contains automated tests built for the exam assignment.
+This project contains automated UI tests for the eBay web application using **Selenium + Pytest + Allure**.
 
-- **API tests** for AirportGap service
-- **UI tests** for Inventory web application (Selenium-based)
+---
 
-The project uses **Python 3.10+**, **pytest**, **requests**, and **selenium**.
+## 🔧 Setup (Manual)
 
+Create virtual environment:
 
-python -m venv venv
-source venv/bin/activate   # macOS/Linux
-venv\Scripts\activate      # Windows
+```bash
+python -m venv .venv
+```
 
-install requirements:
+Activate:
+
+**Mac/Linux:**
+
+```bash
+source .venv/bin/activate
+```
+
+**Windows:**
+
+```bash
+.venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
+---
 
-To run api tests:
-pytest api_tests/tests/ --log-cli-level=INFO -v 
+## 🚀 Run Tests (Recommended - One Command)
 
-To run e2e tests:
-pytest e2e_tests/tests/ -v
+### 🪟 Windows
 
-### To run tests multiple times (repeat mode):
+```powershell
+.\run_tests.bat
+```
 
-You can run a test multiple times using the --count option from pytest-repeat:
-pytest e2e_tests/tests/test_inventory.py --count=20 -v
+### 🍎 Mac
 
+```bash
+bash run_tests.sh
+```
 
-⚙️ Configuration
-Project configuration (base URLs, credentials, API keys) is located in:
-/api_tests/config.py
-/e2e_tests/config.py
+👉 This will:
 
+* create/activate virtual environment
+* install dependencies
+* run tests
+* open Allure report (if installed)
 
+---
 
+## 📊 Allure Report (Optional)
 
+If Allure is installed, the report will open automatically.
 
+If not installed, tests will still run and results will be saved in:
+
+```
+allure-results/
+```
+
+### Install Allure:
+
+**Mac:**
+
+```bash
+brew install allure
+```
+
+**Windows:**
+
+```bash
+scoop install allure
+```
+
+Or download manually:
+https://github.com/allure-framework/allure2/releases
+
+---
+
+## 🧪 Run Tests Manually
+
+```bash
+pytest e2e_tests/tests/ --log-cli-level=INFO -v
+```
+
+---
+
+## 🔁 Run Tests Multiple Times
+
+Using `pytest-repeat`:
+
+```bash
+pytest e2e_tests/tests/test_prices.py --count=20 -v
+```
+
+---
+
+## 📁 Project Structure
+
+```
+.
+├── e2e_tests/
+├── run_tests.bat
+├── run_tests.sh
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 💡 Notes
+
+* Logging is enabled for debugging test flow
+* Screenshots are automatically attached to Allure on failure
+* Scripts support both Windows and Mac environments

@@ -16,7 +16,7 @@ def test_add_single_item_to_cart(driver,item_page,cart_page,landing_page,perform
             break
     landing_page.click_on_cart()
     total_price = cart_page.get_total_price()
-    assert sum(all_item_prices) == total_price, (
+    assert int(sum(all_item_prices)) == total_price, (
         f"Cart total price should match the selected items. "
         f"Expected: {all_item_prices}, Actual: {total_price}."
     )
