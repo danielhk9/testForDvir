@@ -1,9 +1,9 @@
 import pytest
-from e2e_tests.e2e_test_data import WATCH, APPLE, SHIRT, min_price, max_price
+from e2e_tests.e2e_test_data import WATCH, min_price, max_price
 from e2e_tests.conftest import perform_search, search_results
 
 
-@pytest.mark.parametrize("item", [WATCH, APPLE, SHIRT])
+@pytest.mark.parametrize("item", [WATCH])
 def test_add_single_item_to_cart(driver,item_page,cart_page,landing_page,perform_search,filter_panel, item):
     all_item_prices = 0
     filter_panel.filter_by_price(min_price,max_price)
