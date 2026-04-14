@@ -1,20 +1,18 @@
 import pytest
-
-from e2e_tests.e2e_test_data import EXPECTED_NUMBER_OF_INVENTORY_ITEMS, EXPECTED_CART_COUNT_AFTER_ADDING_ONE_ITEM
-
-
-def test_get_inventory_number_of_items(driver, login, inventory_setup):
-    items = inventory_setup.get_inventory_items()
-    assert len(items) == EXPECTED_NUMBER_OF_INVENTORY_ITEMS, f"Expected {EXPECTED_NUMBER_OF_INVENTORY_ITEMS} inventory items, but got different number {len(items)}."
+import pytest
+from e2e_tests.e2e_test_data import WATCH, APPLE, SHIRT, min_price, max_price
+from e2e_tests.conftest import search_results
 
 
-@pytest.mark.parametrize('item_number_by_index', [0])
-def test_add_single_item_to_cart(driver, login, inventory_setup, item_number_by_index):
-    items = inventory_setup.get_inventory_items()
-    first_item = items[item_number_by_index]
-    inventory_setup.add_inventory_item_to_cart_by_index(first_item)
-    cart_badge = inventory_setup.get_cart_item()
-    assert cart_badge.text == EXPECTED_CART_COUNT_AFTER_ADDING_ONE_ITEM, (f"Cart badge should show {EXPECTED_CART_COUNT_AFTER_ADDING_ONE_ITEM} "
-                                                                          f"instead of {cart_badge.text}, after adding one item to cart.")
-    # Clean up: remove item so test is repeatable
-    inventory_setup.remove_item_from_cart(first_item)
+@pytest.mark.parametrize("search_term", [WATCH, APPLE, SHIRT])
+def test_add_single_item_to_cart(driver,item_page,cart_page,landing_page,filter_panel, search_term):
+    filter_panel.filter_by_price(min_price,max_price)
+    items = search_results(search_term,landing_page)
+    all_item_prices = landing_page.select_item_by_index(min_price,max_price,items,5)
+    item_page.add_to_cart(5)
+    landing_page.click_on_cart()
+    total_price = cart_page.get_total_price()
+    assert sum(all_item_prices) == total_price, (
+        f"Cart total price should match the selected items. "
+        f"Expected: {item_price}, Actual: {total_price}."
+    )

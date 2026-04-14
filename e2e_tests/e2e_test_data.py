@@ -1,4 +1,9 @@
 # e2e_test_data.py
 
-EXPECTED_NUMBER_OF_INVENTORY_ITEMS = 6
-EXPECTED_CART_COUNT_AFTER_ADDING_ONE_ITEM = "1"
+WATCH = 'watch'
+SHIRT = 'shirt'
+APPLE = 'apple'
+
+# prices_range
+max_price = '100'
+min_price = '50'

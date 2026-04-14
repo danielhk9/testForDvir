@@ -22,6 +22,13 @@ class BasePage:
     def get_element(self, locator):
         return self.wait_for_element(locator)
 
+    def get_element_inside_locator(self, main_locator, locator):
+        return self.driver.find_element(main_locator, locator)
+
+    def submit(self, locator):
+        element = self.get_element(locator)
+        element.send_keys(Keys.ENTER)
+
     def get_elements(self, locator):
         return self.wait_for_elements(locator)
 
@@ -42,7 +49,12 @@ class BasePage:
         except TimeoutException:
             return False
 
-    def find_element_inside(self, parent_element, locator):
-        return parent_element.find_element(*locator)
+    @staticmethod
+    def change_tab():
+        driver.switch_to.window(driver.window_handles[-1])
+
+    @staticmethod
+    def close_current_tab():
+        driver.close()
 
 
